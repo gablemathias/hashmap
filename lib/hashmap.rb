@@ -9,7 +9,7 @@ class HashMap
   def initialize
     @buckets = [] # Initial "size" has to be 16
     @capacity = 16
-    @load_factor = 0.8
+    @load_factor = 0.75
     @quantity = 0
   end
 
