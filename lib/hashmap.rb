@@ -4,7 +4,7 @@ require_relative 'linked_list'
 # It makes use of the Linked List and its Nodes
 # It is unordered compared to the Ruby Hash class.
 class HashMap
-  attr_reader :capacity
+  attr_reader :capacity, :quantity
 
   def initialize
     @buckets = [] # Initial "size" has to be 16
@@ -25,7 +25,7 @@ class HashMap
   def set(key, value)
     index = hash(key) % capacity
 
-    check_index(index)
+    return if check_index(index)
 
     if @buckets[index].nil?
       @buckets[index] = LinkedList.new.append([key, value])
@@ -33,13 +33,14 @@ class HashMap
       @buckets[index].append([key, value])
     end
 
+    @quantity += 1
     calibrate_capacity if buckets_overload?
   end
 
   private
 
   def check_index(index)
-    raise IndexError if index.negative? || index >= @buckets.length
+    raise IndexError if index.negative? || index >= capacity
   end
 
   def buckets_overload?
@@ -48,5 +49,13 @@ class HashMap
 
   def calibrate_capacity
     @capacity = capacity * 2
+  end
+
+  def length
+    capacity
+  end
+
+  def size
+    quantity
   end
 end
