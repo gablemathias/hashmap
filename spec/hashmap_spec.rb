@@ -9,7 +9,12 @@ RSpec.describe HashMap do
       expect(hashmap.quantity).to eq(1)
     end
 
-    it 'removes the key value pair'
+    it 'removes the key value pair' do
+      node = hashmap.set('a', 'b').remove('a')
+
+      expect(node.value[0]).to eq('a')
+      expect(hashmap.quantity).to eq(0)
+    end
   end
 
   context 'when verifying the hash' do

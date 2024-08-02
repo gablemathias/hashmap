@@ -38,18 +38,15 @@ class HashMap
   end
 
   def get(key)
-    index = hash(key) % 16
-    turns = capacity / 16
-    return if @buckets[index].nil?
+    idx = index(key)
+    return if idx.nil?
 
-    turns.times do
-      current_node = @buckets[index].head
+    node = @buckets[idx]
 
-      result = buckets_looping(current_node, key)
-      return result.value[1] unless result.nil?
+    current_node = node.head
 
-      index %= 16
-    end
+    result = check_key(current_node, key)
+    return result.value[1] unless result.nil?
 
     nil
   end
@@ -58,17 +55,33 @@ class HashMap
     !get(key).nil?
   end
 
+  def index(key)
+    idx = hash(key) % 16
+    turns = capacity / 16
+
+    return if @buckets[idx].nil?
+
+    turns.times do
+      current_node = @buckets[idx].head
+
+      result = check_key(current_node, key)
+      return idx unless result.nil?
+
+      idx %= 16
+    end
+
+    nil
+  end
+
   private
 
-  def buckets_looping(node, key)
+  def check_key(node, key)
+    return nil if node.nil?
+
     if node.next_node.nil?
       node if node.value[0] == key
     else
-      unless node.nil?
-        return node if node.value[0] == key
-
-        node = node.next_node # rubocop:disable Lint/UselessAssignment
-      end
+      check_key(node.next_node, key)
     end
   end
 
