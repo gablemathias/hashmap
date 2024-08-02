@@ -37,7 +37,36 @@ class HashMap
     calibrate_capacity if buckets_overload?
   end
 
+  def get(key)
+    index = hash(key) % 16
+    turns = capacity / 16
+    return if @buckets[index].nil?
+
+    turns.times do
+      current_node = @buckets[index].head
+
+      result = buckets_looping(current_node, key)
+      return result unless result.nil?
+
+      index %= 16
+    end
+
+    nil
+  end
+
   private
+
+  def buckets_looping(node, key)
+    if node.next_node.nil?
+      node.value[1] if node.value[0] == key
+    else
+      unless node.nil?
+        return node.value[1] if node.value[0] == key
+
+        node = node.next_node # rubocop:disable Lint/UselessAssignment
+      end
+    end
+  end
 
   def check_index(index)
     raise IndexError if index.negative? || index >= capacity

@@ -1,4 +1,3 @@
-require 'rubocop-rspec'
 require_relative '../lib/hashmap'
 
 RSpec.describe HashMap do
@@ -10,7 +9,11 @@ RSpec.describe HashMap do
     expect(hashmap.quantity).to eq(1)
   end
 
-  it 'returns an existing value from the hash'
+  it 'returns an existing value from the hash' do
+    hashmap.set('jack', 'frost')
+
+    expect(hashmap.get('jack')).to eq('frost')
+  end
   it 'checks if a key exists in the hash'
   it 'removes the key value pair from the hash'
 end
