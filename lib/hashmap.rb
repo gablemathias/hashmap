@@ -1,5 +1,8 @@
 require_relative 'linked_list'
 
+# HashMap Data Structure
+# It makes use of the Linked List and its Nodes
+# It is unordered compared to the Ruby Hash class.
 class HashMap
   attr_reader :capacity
 
@@ -15,7 +18,7 @@ class HashMap
     prime_number = 31
 
     key.each_char { |char| hash_code = prime_number * hash_code + char.ord }
-    
+
     hash_code
   end
 
@@ -32,18 +35,18 @@ class HashMap
 
     calibrate_capacity if buckets_overload?
   end
-  
-    private
 
-    def check_index(idx)
-      raise IndexError if index.negative? || index >= @buckets.length
-    end
+  private
 
-    def buckets_overload?
-      quantity >= capacity * @load_factor
-    end
+  def check_index(index)
+    raise IndexError if index.negative? || index >= @buckets.length
+  end
 
-    def calibrate_capacity
-      @capacity = capacity * 2
-    end
+  def buckets_overload?
+    quantity >= capacity * @load_factor
+  end
+
+  def calibrate_capacity
+    @capacity = capacity * 2
+  end
 end
