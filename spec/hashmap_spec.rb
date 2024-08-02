@@ -3,17 +3,28 @@ require_relative '../lib/hashmap'
 RSpec.describe HashMap do
   let(:hashmap) { HashMap.new }
 
-  it 'sets a key value pair in a bucket' do
-    hashmap.set('jack', 'frost')
+  context 'when updating the hash map' do
+    it 'sets a key value pair in a bucket' do
+      hashmap.set('a', 'b')
+      expect(hashmap.quantity).to eq(1)
+    end
 
-    expect(hashmap.quantity).to eq(1)
+    it 'removes the key value pair'
   end
 
-  it 'returns an existing value from the hash' do
-    hashmap.set('jack', 'frost')
+  context 'when verifying the hash' do
+    before { hashmap.set('jack', 'frost') }
 
-    expect(hashmap.get('jack')).to eq('frost')
+    it 'returns an existing value' do
+      expect(hashmap.get('jack')).to eq('frost')
+    end
+
+    it 'checks if a key exists' do
+      expect(hashmap.has?('jack')).to be true
+    end
+
+    it 'returns nil when key non-existent' do
+      expect(hashmap.has?('harry')).to be_nil
+    end
   end
-  it 'checks if a key exists in the hash'
-  it 'removes the key value pair from the hash'
 end

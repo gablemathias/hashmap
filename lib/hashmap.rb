@@ -54,6 +54,9 @@ class HashMap
     nil
   end
 
+  def has?(key)
+  end
+
   private
 
   def buckets_looping(node, key)
