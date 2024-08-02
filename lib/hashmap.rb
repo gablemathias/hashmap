@@ -35,17 +35,19 @@ class HashMap
 
     @quantity += 1
     calibrate_capacity if buckets_overload?
+
+    self
   end
 
   def get(key)
     idx = index(key)
     return if idx.nil?
 
-    node = @buckets[idx]
+    node = @buckets[idx].head
 
-    current_node = node.head
+    return node.value[1] if node.value[0] == key
 
-    result = check_key(current_node, key)
+    result = check_key(node, key)
     return result.value[1] unless result.nil?
 
     nil
@@ -71,6 +73,18 @@ class HashMap
     end
 
     nil
+  end
+
+  def remove(key)
+    return nil unless has?(key)
+
+    node_head = @buckets[index(key)]
+    idx = node_head.find([key, get(key)])
+    action = -> { node_head.remove_at(idx) and @quantity -= 1 }
+    pair = [key, get(key)]
+
+    action.call
+    pair
   end
 
   private

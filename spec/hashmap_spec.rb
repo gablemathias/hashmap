@@ -10,10 +10,11 @@ RSpec.describe HashMap do
     end
 
     it 'removes the key value pair' do
-      node = hashmap.set('a', 'b').remove('a')
+      node = hashmap.set('a', 'b')
+      node.remove('a')
 
-      expect(node.value[0]).to eq('a')
       expect(hashmap.quantity).to eq(0)
+      expect(hashmap.get('a')).to be_nil
     end
   end
 
