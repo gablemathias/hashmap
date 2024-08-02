@@ -22,21 +22,14 @@ class HashMap
     hash_code
   end
 
-  def set(key, value) # rubocop:disable Metrics/MethodLength
+  def set(key, value)
     return overwrite(key, value) if has?(key)
 
     index = hash(key) % capacity
 
     return if check_index(index)
 
-    if @buckets[index].nil?
-      @buckets[index] = LinkedList.new.append([key, value])
-    else
-      @buckets[index].append([key, value])
-    end
-
-    @quantity += 1
-    calibrate_capacity if buckets_overload?
+    insert(index, key, value)
 
     self
   end
@@ -89,6 +82,10 @@ class HashMap
     pair
   end
 
+  def length
+    quantity
+  end
+
   private
 
   def check_key(node, key)
@@ -124,11 +121,14 @@ class HashMap
     @capacity = capacity * 2
   end
 
-  def length
-    capacity
-  end
+  def insert(index, key, value)
+    if @buckets[index].nil?
+      @buckets[index] = LinkedList.new.append([key, value])
+    else
+      @buckets[index].append([key, value])
+    end
 
-  def size
-    quantity
+    @quantity += 1
+    calibrate_capacity if buckets_overload?
   end
 end
