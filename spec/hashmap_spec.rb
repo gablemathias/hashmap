@@ -49,5 +49,27 @@ RSpec.describe HashMap do
     it 'returns nil when key non-existent' do
       expect(hashmap.get('harry')).to be_nil
     end
+
+    context 'when checking all the hashmap' do
+      before do
+        hashmap.set('a', 'b')
+        hashmap.set('c', 'd')
+      end
+
+      it 'returns array with entries' do
+        target = %w[a b], %w[c d], %w[jack frost]
+        expect(hashmap.entries).to match_array target
+      end
+
+      it 'returns array with keys' do
+        target = %w[a c jack]
+        expect(hashmap.keys).to match_array target
+      end
+
+      it 'returns array with values' do
+        target = %w[b frost d]
+        expect(hashmap.values).to match_array target
+      end
+    end
   end
 end

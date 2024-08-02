@@ -92,6 +92,32 @@ class HashMap
     @quantity = 0
   end
 
+  def entries # rubocop:disable Metrics/MethodLength
+    arr = []
+    @buckets.compact.each do |llist|
+      nodes_size = llist.size
+      node = llist.head
+      if nodes_size > 1
+        nodes_size.times do
+          arr << node.value
+          node = node.next_node
+        end
+      else
+        arr << node.value
+      end
+    end
+
+    arr
+  end
+
+  def keys
+    entries.map { |pair| pair[0] }
+  end
+
+  def values
+    entries.map { |pair| pair[1] }
+  end
+
   private
 
   def check_key(node, key)
