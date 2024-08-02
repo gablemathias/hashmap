@@ -86,6 +86,12 @@ class HashMap
     quantity
   end
 
+  def clear
+    @buckets = []
+    @capacity = 16
+    @quantity = 0
+  end
+
   private
 
   def check_key(node, key)

@@ -24,6 +24,14 @@ RSpec.describe HashMap do
       expect(hashmap.get('a')).to eq('c')
       expect(hashmap.quantity).to eq(1)
     end
+
+    it 'empty the hashmap' do
+      hashmap.set('a', 'b')
+      hashmap.set('c', 'd')
+      hashmap.clear
+
+      expect(hashmap.quantity).to be_zero
+    end
   end
 
   context 'when verifying the hash' do
