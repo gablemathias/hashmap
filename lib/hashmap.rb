@@ -22,7 +22,9 @@ class HashMap
     hash_code
   end
 
-  def set(key, value)
+  def set(key, value) # rubocop:disable Metrics/MethodLength
+    return overwrite(key, value) if has?(key)
+
     index = hash(key) % capacity
 
     return if check_index(index)
@@ -101,6 +103,17 @@ class HashMap
 
   def check_index(index)
     raise IndexError if index.negative? || index >= capacity
+  end
+
+  def get_node(key)
+    node = @buckets[index(key)].head
+
+    check_key(node, key)
+  end
+
+  def overwrite(key, new_value)
+    node = get_node(key)
+    node.value[1] = new_value
   end
 
   def buckets_overload?

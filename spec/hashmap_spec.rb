@@ -16,6 +16,14 @@ RSpec.describe HashMap do
       expect(hashmap.quantity).to eq(0)
       expect(hashmap.get('a')).to be_nil
     end
+
+    it 'overwrites current value in the given key' do
+      hashmap.set('a', 'b')
+      hashmap.set('a', 'c')
+
+      expect(hashmap.get('a')).to eq('c')
+      expect(hashmap.quantity).to eq(1)
+    end
   end
 
   context 'when verifying the hash' do
