@@ -20,11 +20,12 @@ RSpec.describe HashMap do
     end
 
     it 'checks if a key exists' do
+      expect(hashmap.has?('a')).to be false
       expect(hashmap.has?('jack')).to be true
     end
 
     it 'returns nil when key non-existent' do
-      expect(hashmap.has?('harry')).to be_nil
+      expect(hashmap.get('harry')).to be_nil
     end
   end
 end

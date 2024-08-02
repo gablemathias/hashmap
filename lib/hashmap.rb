@@ -46,7 +46,7 @@ class HashMap
       current_node = @buckets[index].head
 
       result = buckets_looping(current_node, key)
-      return result unless result.nil?
+      return result.value[1] unless result.nil?
 
       index %= 16
     end
@@ -55,16 +55,17 @@ class HashMap
   end
 
   def has?(key)
+    !get(key).nil?
   end
 
   private
 
   def buckets_looping(node, key)
     if node.next_node.nil?
-      node.value[1] if node.value[0] == key
+      node if node.value[0] == key
     else
       unless node.nil?
-        return node.value[1] if node.value[0] == key
+        return node if node.value[0] == key
 
         node = node.next_node # rubocop:disable Lint/UselessAssignment
       end
